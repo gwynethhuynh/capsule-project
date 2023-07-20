@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+
+.footerWrapper {
+    background-color: black;
+    display: flex;
+    width: 100%;
+    bottom: 0px;
+    /* position: fixed; */
+}

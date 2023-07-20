@@ -1,0 +1,11 @@
+* {
+    text-align: center;
+    position: relative;
+  }
+
+.contentWrapper {
+    background-image: url("../../images/leopard-print.webp");
+    background-size: cover;
+    height: 100%;
+    opacity: 95%;
+}
