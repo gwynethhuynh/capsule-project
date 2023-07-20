@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "Ad Lib W07 Rg";
+    src: url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.eot");
+    src: url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.svg#Ad Lib W07 Rg")format("svg");
+} 
+
 * {
     text-align: center;
     position: relative;
@@ -5,7 +15,60 @@
 
 .contentWrapper {
     background-image: url("../../images/leopard-print.webp");
-    background-size: cover;
+    background-size: 30%;
     height: 100%;
     opacity: 95%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#carousel {
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+#topCarousel,
+#bottomCarousel,
+.carouselBtn {
+	flex: 1;
+	width: 100%;
+	background: rgb(249, 248, 248);
+	border-bottom: 0.7vw inset #000;
+	border-left: 0.7vw inset #f1ebff;
+	border-right: 0.7vw inset #000;
+	border-top: 0.7vw inset #f1ebff;
+}
+
+.carouselWrapper {
+    height: 100%;
+}
+
+
+.carouselText{
+    color: black;
+}
+
+.carouselBtnWrapper {
+    display: flex;
+    justify-content: space-between;
+    
+}
+.carouselBtn {
+    background-color: gray;
+    color: black;
+    font-size: 6.0vw;
+    font-family: "Ad Lib W07 Rg";
+    text-shadow: -0.2vw -0.1vw rgba(245, 245, 245, 0.626);
+}
+
+img {
+    max-width: 25%;
+    max-height: 100%;
+    /* display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%; */
 }

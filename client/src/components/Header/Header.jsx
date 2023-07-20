@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <div className='headerWrapper'>
       <div className='headerLeft'>
-        <p>KAI'S WARDROBE</p>
+        <p>GWEN'S WARDROBE</p>
       </div>
       <div className='headerRight'>
         <p></p>
