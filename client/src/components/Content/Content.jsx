@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from "./Content.css"
 // Source for loading image: https://stackoverflow.com/questions/34582405/react-wont-load-local-images
+// Source for storing images in backend
 
 function Content() {
   return (
@@ -13,9 +14,9 @@ function Content() {
           </div>
         </div>
         <div className='carouselBtnWrapper'>
-          <div className='carouselBtn'>◂◂</div>
-          <div className='carouselBtn'>▸</div>
-          <div className='carouselBtn'>▸▸</div>
+          <button className='carouselBtn'>◂◂</button>
+          <button className='carouselBtn'>▸</button>
+          <button className='carouselBtn'>▸▸</button>
         </div>
         <div id='bottomCarousel'>
           <div className='carouselWrapper'>
@@ -24,9 +25,9 @@ function Content() {
           </div>
         </div>
         <div className='carouselBtnWrapper'>
-          <div className='carouselBtn'>◂◂</div>
-          <div className='carouselBtn'>▸</div>
-          <div className='carouselBtn'>▸▸</div>
+          <button className='carouselBtn'>◂◂</button>
+          <button className='carouselBtn'>▸</button>
+          <button className='carouselBtn'>▸▸</button>
         </div>
       </div>
 
