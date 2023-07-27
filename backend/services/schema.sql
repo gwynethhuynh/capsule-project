@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS ratings (
     created TIMESTAMP NOT NULL DEFAULT NOW()
 ) ENGINE=INNODB;
 
-INSERT INTO ratings (shirt_id, bottom_id, rating)
+INSERT IGNORE INTO ratings (shirt_id, bottom_id, rating)
     VALUES (
         (SELECT shirt_id FROM shirts WHERE shirt_name = "gray baby tee"),
         (SELECT bottom_id FROM bottoms WHERE bottom_name = "light blue straight jeans"),
@@ -51,4 +51,31 @@ INSERT INTO ratings (shirt_id, bottom_id, rating)
         (SELECT shirt_id FROM shirts WHERE shirt_name = "cream baby tee"),
         (SELECT bottom_id FROM bottoms WHERE bottom_name = "light blue straight jeans"),
         4);
+
+-- Create UNIQUE constraint to prevent duplicates
+
+ALTER TABLE shirts
+ADD CONSTRAINT uc_shirt UNIQUE (shirt_name);
+
+ALTER TABLE bottoms
+ADD CONSTRAINT uc_bottom UNIQUE (bottom_name);
+
+ALTER TABLE ratings
+ADD CONSTRAINT uc_rating UNIQUE (shirt_id, bottom_id);
+
+
+-- Delete Duplicate rows: https://www.mysqltutorial.org/mysql-delete-duplicate-rows/
+DELETE rating1 FROM ratings rating1
+INNER JOIN ratings rating2 
+WHERE
+    rating1.rating_id < rating2.rating_id AND 
+    rating1.shirt_id = rating2.shirt_id AND
+    rating1.bottom_id = rating2.bottom_id;
+
+-- Update Row with Unique Constraint: https://stackoverflow.com/questions/75262403/how-to-update-a-row-with-a-unique-constraint-postgresql 
+UPDATE ratings
+SET rating = 8
+WHERE shirt_id = (SELECT shirt_id FROM shirts WHERE shirt_name = "gray baby tee") and bottom_id = (SELECT bottom_id FROM bottoms WHERE bottom_name = "light blue straight jeans");
+
+
 
