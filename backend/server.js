@@ -1,7 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config({ path: './config/config.env' });
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// dotenv.config({ path: './config/config.env' });
+dotenv.config({path:__dirname+'/config/config.env'})
 
 const app = express();
 
@@ -23,6 +28,11 @@ const people = [
   app.get('/api/people', (req, res) => {
     res.json(people);
   });
+
+console.log(process.env.DB_PASSWORD);
+console.log(process.env.DB_HOST);
+console.log(process.env.DB_USER);
+console.log(process.env.PORT);
 
 const PORT = process.env.PORT || 8000;
 

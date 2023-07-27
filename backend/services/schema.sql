@@ -1,4 +1,6 @@
 -- CREATE DATABASE capsule_project;
+-- Source: https://arctype.com/blog/collaborative-filtering-tutorial/ 
+-- Source: https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-basic-ops 
 USE capsule_project;
 
 -- Create a table for shirts

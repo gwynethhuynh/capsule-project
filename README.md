@@ -23,4 +23,14 @@
 4. Tips
 - Executing MySQL script from command line after connecting to root: https://www.baeldung.com/linux/execute-sql-script-command-line 
 
+## Nodejs Issues
+1. dotenv was not loading environment variables
+- Solution: get current directory and append that to relative path to config.env file
+- https://stackoverflow.com/questions/46745014/alternative-for-dirname-in-node-js-when-using-es6-modules
+- https://stackoverflow.com/questions/42335016/dotenv-file-is-not-loading-environment-variables 
+
+## MySQL issues
+1. Client does not support authentication protocol requested by server; consider upgrading MySQL client
+- Source: https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server 
+- 
 ### Sources:
