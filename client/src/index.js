@@ -6,13 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "../src/components/Profile/Profile";
 
+
+// Source: https://www.theodinproject.com/lessons/node-path-react-new-react-router 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
   {
-    path: "/profile",
+    path: "/add-item",
     element: <Profile />,
   },
 ]);

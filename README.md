@@ -21,7 +21,12 @@
 - `bottom_img` : : amazons3 link to shirt image
 
 4. Tips
-- Executing MySQL script from command line after connecting to root: https://www.baeldung.com/linux/execute-sql-script-command-line 
+- Executing MySQL script from command line after connecting to root: https://www.baeldung.com/linux/execute-sql-script-command-line
+- Nodejs x MySQL tutorial: https://codeforgeek.com/nodejs-mysql-tutorial/  
+
+# Amazon S3 to Store Images
+1. Create a bucket
+2. 
 
 ## Nodejs Issues
 1. dotenv was not loading environment variables

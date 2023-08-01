@@ -16,7 +16,8 @@
 .contentWrapper {
     background-image: url("../../images/leopard-print.webp");
     background-size: 30%;
-    height: 100%;
+    /* height: 100%; */
+    height: 81vh;
     opacity: 95%;
     width: 100%;
     display: flex;

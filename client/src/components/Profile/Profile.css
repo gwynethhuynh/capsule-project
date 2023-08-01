@@ -7,35 +7,3 @@
     url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.ttf")format("truetype"),
     url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.svg#Ad Lib W07 Rg")format("svg");
 } 
-
-* {
-    box-sizing: border-box;
-}
-
-.headerWrapper {
-    background-color: black;
-    display: flex;
-    padding: 0.5vmin;
-    top: 0px;
-    width: 100%;
-    /* position: fixed; */
-}
-
-.headerLeft {
-    /* background-color: beige; */
-    flex: 5%;
-    text-align: left;
-}
-
-.headerRight {
-    /* background-color: pink; */
-    flex: 50%;
-    text-align: center;
-}
-.headerLabel {
-    color: aliceblue;
-    font-family: "Ad Lib W07 Rg";
-    text-shadow: -0.2vw -0.1vw gray;
-    font-size: 2.0vw;
-    margin: 4%;
-}

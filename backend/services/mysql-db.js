@@ -25,10 +25,18 @@ dotenv.config({path:__dirname+'/../config/config.env'})
 var con = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
 });
+console.log(con)
 
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
+});
+
+con.query('SELECT * from shirts', (err, rows) => {
+    if (err) throw err;
+    console.log('The data from users table are: \n', rows);
+    con.end();
 });

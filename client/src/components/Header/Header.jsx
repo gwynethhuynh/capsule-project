@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <div className='headerWrapper'>
       <div className='headerLeft'>
-        <p>GWEN'S WARDROBE</p>
+        <p className='headerLabel'>GWEN'S WARDROBE</p>
       </div>
       <div className='headerRight'>
         <p></p>

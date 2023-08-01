@@ -7,9 +7,10 @@
   "scripts": {
     "start": "node server.js",
     "server": "node --watch server.js",
-    "client": "npm start --prefix client",
+    "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+
   "author": "Gwyneth Huynh",
   "license": "ISC",
   "devDependencies": {
