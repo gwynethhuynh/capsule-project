@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import * as shirtRouter from './routes/shirts.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -28,6 +29,8 @@ const people = [
   app.get('/api/people', (req, res) => {
     res.json(people);
   });
+console.log(shirtRouter);
+app.get('/shirts', shirtRouter.router);
 
 console.log(process.env.DB_PASSWORD);
 console.log(process.env.DB_HOST);

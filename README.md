@@ -24,10 +24,12 @@
 - Executing MySQL script from command line after connecting to root: https://www.baeldung.com/linux/execute-sql-script-command-line
 - Nodejs x MySQL tutorial: https://codeforgeek.com/nodejs-mysql-tutorial/  
 
-# Amazon S3 to Store Images
+## Amazon S3 to Store Images
 1. Create a bucket
 2. 
 
+## Nodejs 
+- Source: https://blog.logrocket.com/build-rest-api-node-express-mysql/ 
 ## Nodejs Issues
 1. dotenv was not loading environment variables
 - Solution: get current directory and append that to relative path to config.env file
