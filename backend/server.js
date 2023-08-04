@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as shirtRouter from './routes/shirts.js';
+import * as bottomRouter from './routes/bottoms.js';
+import * as ratingRouter from './routes/ratings.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -31,6 +33,8 @@ const people = [
   });
 console.log(shirtRouter);
 app.get('/shirts', shirtRouter.router);
+app.get('/bottoms', bottomRouter.router);
+app.get('/ratings', ratingRouter.router);
 
 console.log(process.env.DB_PASSWORD);
 console.log(process.env.DB_HOST);
