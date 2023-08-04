@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as shirtRouter from './routes/shirts.js';
@@ -12,6 +13,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({path:__dirname+'/config/config.env'})
 
 const app = express();
+
+app.use(cors());
 
 app.get('/', (req, res) => res.send('Server running'));
 

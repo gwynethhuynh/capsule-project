@@ -1,6 +1,6 @@
+// Source: https://github.com/FedeBerbara/RestAPI-Node-Express-MySQL/blob/master/src/controllers/customerController.js 
 import express from 'express';
 import dbConnection from '../services/mysql-db.js';
-import * as Clothes from '../services/clothes.js';
 
 export const router = express.Router();
 // Get shirts
