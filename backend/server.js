@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as shirtRouter from './routes/shirts.js';
@@ -13,6 +14,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({path:__dirname+'/config/config.env'})
 
 const app = express();
+
+const jsonParser = bodyParser.json()
 
 app.use(cors());
 
@@ -36,6 +39,7 @@ const people = [
   });
 console.log(shirtRouter);
 app.get('/shirts', shirtRouter.router);
+app.post('/shirts', jsonParser, shirtRouter.router);
 app.get('/bottoms', bottomRouter.router);
 app.get('/ratings', ratingRouter.router);
 

@@ -23,5 +23,17 @@ router.get('/shirts', function(req, res, next) {
     }
 });
 
+router.post('/shirts', function(req, res, next) {
+    try {
+        console.log("ENTERED SHIRTS POST");
+        console.log(req.body);
+        res.status(200).json("hello");
+
+    }catch (err) {
+        console.error("Error while getting shirts", err.message);
+        next(err);
+    }
+});
+
 
 
