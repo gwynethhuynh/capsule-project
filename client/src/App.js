@@ -3,6 +3,7 @@ import './App.css'
 import Content from './components/Content/Content';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import User from './components/User/User';
 
 function App() {
   const [people, setPeople] = useState([]);
@@ -33,6 +34,7 @@ function App() {
       <Header></Header>
       <Content></Content>
       <Footer></Footer>
+      {/* <User></User> */}
     </div>
   );
 }

@@ -40,8 +40,11 @@ const people = [
 console.log(shirtRouter);
 app.get('/shirts', shirtRouter.router);
 app.post('/shirts', jsonParser, shirtRouter.router);
+// app.post('/shirts', jsonParser, shirtRouter.router);
 app.get('/bottoms', bottomRouter.router);
 app.get('/ratings', ratingRouter.router);
+
+// DELETE LATER
 
 console.log(process.env.DB_PASSWORD);
 console.log(process.env.DB_HOST);

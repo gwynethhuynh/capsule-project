@@ -15,14 +15,6 @@ function Content() {
   //   });
   // }, []);
 
-  // const handleChange = (e) => {
-  //   const value = e.target.value;
-  //   setData({
-  //     ...data,
-  //     [e.target.name]: value
-  //   });
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("HANDLING SUBMIT!");
