@@ -85,15 +85,21 @@ function Uploader() {
         </span>
         
       </section>
+
+      <section className='uploaded-row'>
+        <label>Clothing Category</label>
+        <select>
+          <option value="shirt">Shirt</option>
+          <option value="bottom">Bottom</option>
+        </select>
+      </section>
       <section className='uploaded-row'>
         <span className='upload-content' onClick={handleSubmit}>
           SUBMIT
         </span>
       </section>
+
       
-      <button onClick={handleSubmit}>
-        SUBMIT
-      </button>
 
 
     </main>

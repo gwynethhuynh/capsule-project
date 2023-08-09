@@ -6,8 +6,8 @@ USE capsule_project;
 -- Create a table for shirts
 CREATE TABLE IF NOT EXISTS shirts (
     shirt_id int PRIMARY KEY AUTO_INCREMENT,
-    shirt_name varchar(255) NOT NULL,
-    shirt_img varchar(1024) NOT NULL, 
+    shirt_file_name varchar(255) NOT NULL,
+    shirt_img_url varchar(1024) NOT NULL, 
     created TIMESTAMP NOT NULL DEFAULT NOW()
 ) ENGINE=INNODB;
 
@@ -19,8 +19,8 @@ VALUES
 -- Create a table for botoms
 CREATE TABLE IF NOT EXISTS bottoms (
     bottom_id int PRIMARY KEY AUTO_INCREMENT,
-    bottom_name varchar(255) NOT NULL,
-    bottom_img varchar(1024) NOT NULL, 
+    bottom_file_name varchar(255) NOT NULL,
+    bottom_img_url varchar(1024) NOT NULL, 
     created TIMESTAMP NOT NULL DEFAULT NOW()
 ) ENGINE=INNODB;
 

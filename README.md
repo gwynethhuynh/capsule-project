@@ -12,14 +12,13 @@
 
 2. Shirts Table
 - `shirt_id`
-- `shirt_name`
-- `file_name` : file name amazon s3 uses to fetch image link
+- `shirt_file_name` : file name amazon s3 uses to fetch image link
 - `shirt_img_link` : amazon s3 link to shirt image
 
 3. Bottoms Table
 - `bottom_id`
 - `bottom_name` : file name amazon s3 uses to fetch image link
-- `bottom_img` : : amazon s3 link to shirt image
+- `bottom_img` : : amazon s3 link to bottom image
 
 4. Tips
 - Executing MySQL script from command line after connecting to root: https://www.baeldung.com/linux/execute-sql-script-command-line
