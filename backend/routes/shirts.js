@@ -1,9 +1,16 @@
 // Source: https://github.com/FedeBerbara/RestAPI-Node-Express-MySQL/blob/master/src/controllers/customerController.js 
 import express from 'express';
 import dbConnection from '../services/mysql-db.js';
-import { PutObjectCommand, CreateBucketCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { s3Client } from "../services/s3Client.js";
-import multer from 'multer'
+import multer from 'multer';
+import dotenv from 'dotenv';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+dotenv.config({path:__dirname+'/../config/config.env'})
 
 
 export const router = express.Router();
@@ -36,11 +43,19 @@ router.get('/shirts', function(req, res, next) {
 
 router.post('/shirts', upload.single('image'), function(req, res, next) {
     try {
-        // Receive request that contains image blob, filename, type (shirt or bottoms)
+        // Receive request
         console.log("ENTERED SHIRTS POST");
-        // console.log(req.body.image);
         console.log("req.body", req.body)
         console.log("req.file", req.file)
+        // Upload image file to s3
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: req.file.originalname,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+          }
+        const command = new PutObjectCommand(params)
+        s3Client.send(command)
         res.status(200).json(req.body);
 
     }catch (err) {
