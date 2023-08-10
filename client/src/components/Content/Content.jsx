@@ -7,6 +7,9 @@ import styles from "./Content.css"
 function Content() {
 
   const [shirtURLS, setShirtURLS] = React.useState([]);
+  const [shirtIndex, setShirtIndex] = React.useState(0);
+  const [bottomURLS, setBottomURLS] = React.useState([]);
+  const [bottomIndex, setBottomIndex] = React.useState(0);
   const baseURL = "http://127.0.0.1:8000/shirts";
 
   React.useEffect(() => {
@@ -15,19 +18,38 @@ function Content() {
       setShirtURLS(res.data);
       console.log("GET REQUEST SHIRTS", res.data);
     })
-    
+    axios.get("http://localhost:8000/bottoms")
+    .then(res => {
+      setBottomURLS(res.data);
+      console.log("GET REQUEST BOTTOMS", res.data);
+    })
   }, []);
 
-  const handleClickShirt = (e) => {
+  const handleClickShirtForward = (e) => {
     e.preventDefault();
     console.log("HANDLING CLICK SHIRT!");
     // Choose next shirt 
+    setShirtIndex((shirtIndex + 1) % shirtURLS.length)
+  };
+  const handleClickShirtBackward = (e) => {
+    e.preventDefault();
+    console.log("HANDLING CLICK SHIRT!");
+    // Choose next shirt 
+    setShirtIndex((shirtIndex - 1) % shirtURLS.length)
   };
 
-  const handleClickBottom = (e) => {
+  const handleClickBottomForward = (e) => {
     e.preventDefault();
     console.log("HANDLING CLICK BOTTOM!");
     // Choose next bottom 
+    setBottomIndex((bottomIndex + 1) % bottomURLS.length)
+  };
+
+  const handleClickBottomBackward = (e) => {
+    e.preventDefault();
+    console.log("HANDLING CLICK BOTTOM!");
+    // Choose next bottom 
+    setBottomIndex((bottomIndex - 1) % bottomURLS.length)
   };
   
 
@@ -38,26 +60,27 @@ function Content() {
           <div className='carouselWrapper'>
             {/* <img src={require("./../../images/ballad.jpeg")} alt="Ballad Camisole"/> */}
             {/* <p>{shirt.shirt_img}</p> */}
-            {/* <img src={shirt.shirt_img} alt="Ballad Camisole"/> */}
-            <img src="https://capsule-project.s3.us-west-1.amazonaws.com/ballad.png" alt="Ballad Camisole"/>
+            <img src={shirtURLS[shirtIndex]} alt={shirtURLS[shirtIndex]}/>
+            {/* <img src="https://capsule-project.s3.us-west-1.amazonaws.com/ballad.png" alt="Ballad Camisole"/> */}
+            {/* <p>{shirtURLS[0]}</p> */}
             {/* <p className='carouselText'>Top Carousel</p> */}
           </div>
         </div>
         <div className='carouselBtnWrapper'>
-          <button onClick={handleClickShirt} className='carouselBtn'>◂◂</button>
+          <button onClick={handleClickShirtBackward} className='carouselBtn'>◂◂</button>
           <button className='carouselBtn'>▸</button>
-          <button className='carouselBtn'>▸▸</button>
+          <button  onClick={handleClickShirtForward} className='carouselBtn'>▸▸</button>
         </div>
         <div id='bottomCarousel'>
           <div className='carouselWrapper'>
-            <img src={require("./../../images/effortless.webp")} alt="Ballad Camisole"/>
+            <img src={bottomURLS[bottomIndex]} alt={bottomURLS[bottomIndex]}/>
             {/* <p className='carouselText'>Bottom Carousel</p> */}
           </div>
         </div>
         <div className='carouselBtnWrapper'>
-          <button className='carouselBtn'>◂◂</button>
+          <button onClick={handleClickBottomBackward} className='carouselBtn'>◂◂</button>
           <button className='carouselBtn'>▸</button>
-          <button className='carouselBtn'>▸▸</button>
+          <button onClick={handleClickBottomForward} className='carouselBtn'>▸▸</button>
         </div>
       </div>
 

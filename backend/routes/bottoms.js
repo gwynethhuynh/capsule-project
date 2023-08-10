@@ -13,12 +13,17 @@ router.get('/bottoms', function(req, res, next) {
                 console.log("THERE WAS AN ERROR TRYING TO QUERY!");
                 throw error;
             } 
-            console.log("WE WERE ABLE TO QUERY!");
-            console.log(results);   
-            res.status(200).json(results);
+            console.log("WE WERE ABLE TO QUERY BOTTOMS!");
+            console.log(results);  
+            var img_urls = [];
+            while (results.length > 0) {
+                img_urls.push(results.pop().bottom_img_url);
+            }   
+            res.status(200).json(img_urls); 
         });
     } catch (err) {
         console.error("Error while getting bottoms", err.message);
         next(err);
     }
 });
+
