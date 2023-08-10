@@ -20,13 +20,13 @@
     padding: 0.5vmin;
     /* position: fixed; */
 }
-ul {
+.footerList {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
 }
-li {
+.footerListItem {
     color: aliceblue;
     font-family: "Ad Lib W07 Rg";
     text-shadow: -0.2vw -0.1vw gray;

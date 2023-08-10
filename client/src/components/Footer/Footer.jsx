@@ -4,14 +4,14 @@ import styles from "./Footer.css"
 function Footer() {
   return (
     <div className="footerWrapper">
-      <ul style={{listStyleType: 'none'}}>
-        <li>SHOES</li>
-        <li>JEWELRY</li>
-        <li>SCARVES</li>
-        <li>PANTYHOSE</li>
-        <li>UNDERWEAR</li>
-        <li>JACKETS</li>
-        <li>SWEATERS</li>
+      <ul style={{listStyleType: 'none'}} className="footerList">
+        <li className="footerListItem">SHOES</li>
+        <li className="footerListItem">JEWELRY</li>
+        <li className="footerListItem">SCARVES</li>
+        <li className="footerListItem">PANTYHOSE</li>
+        <li className="footerListItem">UNDERWEAR</li>
+        <li className="footerListItem">JACKETS</li>
+        <li className="footerListItem">SWEATERS</li>
       </ul>
     </div>
 

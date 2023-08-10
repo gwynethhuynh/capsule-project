@@ -8,20 +8,19 @@ import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-dotenv.config({path:__dirname+'/../config/config.env'})
-const randomImageName = (bytes = 32) => crypto.randomBytes(16).toString('hex')
+dotenv.config({path:__dirname+'/../config/config.env'});
+const randomImageName = (bytes = 32) => crypto.randomBytes(16).toString('hex');
 
 export const router = express.Router();
 
 
 // Set up multer middleware for handling multipart/form-data (image upload)
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-upload.single('image')
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+upload.single('image');
 
 // Get shirts
 router.get('/shirts', function(req, res, next) {
@@ -47,8 +46,8 @@ router.post('/shirts', upload.single('image'), async function(req, res, next) {
     try {
         // Receive request
         console.log("ENTERED SHIRTS POST");
-        console.log("req.body", req.body)
-        console.log("req.file", req.file)
+        console.log("req.body", req.body.category);
+        console.log("req.file", req.file);
 
         // Create random file name for image
         const fileKey = randomImageName();
@@ -66,9 +65,16 @@ router.post('/shirts', upload.single('image'), async function(req, res, next) {
         // Get s3 url for image
         const url = ['https://', process.env.BUCKET_NAME, '.s3.', process.env.S3_REGION, '.amazonaws.com/', fileKey].join('')
         console.log(url)
+        var query;
 
         // Setup Query
-        var query = ['INSERT INTO', 'shirts', '(shirt_file_name, shirt_img_url)', 'VALUES', '?'].join(' ')
+        if (req.body.category == 'shirt') {
+            query = ['INSERT INTO', 'shirts', '(shirt_file_name, shirt_img_url)', 'VALUES', '?'].join(' ')
+        } else if (req.body.category == 'bottom'){
+            query = ['INSERT INTO', 'bottoms', '(bottom_file_name, bottom_img_url)', 'VALUES', '?'].join(' ')
+        } else {
+            throw new Error("Category undefined");
+        }
         var values = [[fileKey, url]]
         console.log("QUERY", query)
 
