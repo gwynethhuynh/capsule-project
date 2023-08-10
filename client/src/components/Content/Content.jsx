@@ -6,39 +6,30 @@ import styles from "./Content.css"
 
 function Content() {
 
-  const [shirt, setShirts] = React.useState([]);
+  const [shirtURLS, setShirtURLS] = React.useState([]);
   const baseURL = "http://127.0.0.1:8000/shirts";
-  // React.useEffect(() => {
-  //   axios.get(baseURL).then((response) => {
-  //     console.log(response);
-  //     setShirts(response.data[0]);
-  //   });
-  // }, []);
 
-  const handleSubmit = (e) => {
+  React.useEffect(() => {
+    axios.get("http://localhost:8000/shirts")
+    .then(res => {
+      setShirtURLS(res.data);
+      console.log("GET REQUEST SHIRTS", res.data);
+    })
+    
+  }, []);
+
+  const handleClickShirt = (e) => {
     e.preventDefault();
-    console.log("HANDLING SUBMIT!");
-    const userData = {
-      name: "Ken",
-      job: "Beach"
-    };
-    axios.post(baseURL, userData).then((response) => {
-      console.log(response.status, response.data);
-    });
+    console.log("HANDLING CLICK SHIRT!");
+    // Choose next shirt 
+  };
+
+  const handleClickBottom = (e) => {
+    e.preventDefault();
+    console.log("HANDLING CLICK BOTTOM!");
+    // Choose next bottom 
   };
   
-  // React.useEffect(() => {
-  //   axios.post(baseURL, {
-  //     firstName: 'Fred', 
-  //     lastName: 'Flinstone'
-  //   })
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   })
-  // });
 
   return (
     <div className='contentWrapper'>
@@ -53,7 +44,7 @@ function Content() {
           </div>
         </div>
         <div className='carouselBtnWrapper'>
-          <button onClick={handleSubmit} className='carouselBtn'>◂◂</button>
+          <button onClick={handleClickShirt} className='carouselBtn'>◂◂</button>
           <button className='carouselBtn'>▸</button>
           <button className='carouselBtn'>▸▸</button>
         </div>

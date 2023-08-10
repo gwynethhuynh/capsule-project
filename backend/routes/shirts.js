@@ -33,8 +33,12 @@ router.get('/shirts', function(req, res, next) {
                 throw error;
             } 
             console.log("WE WERE ABLE TO QUERY!");
-            console.log(results);   
-            res.status(200).json(results);
+            console.log(results[0]); 
+            var img_urls = [];
+            while (results.length > 0) {
+                img_urls.push(results.pop().shirt_img_url);
+            }   
+            res.status(200).json(img_urls);
         });
     } catch (err) {
         console.error("Error while getting shirts", err.message);
