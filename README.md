@@ -40,7 +40,14 @@
 ## MySQL Issues
 1. Client does not support authentication protocol requested by server; consider upgrading MySQL client
 - Source: https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server 
-- 
+
+### How to connect to Root
+1. How to fix command not found mysql
+- Source: https://stackoverflow.com/questions/35858052/how-to-fix-command-not-found-mysql-in-zsh 
+- Solution: append MySQL path to environment variables
+- `export PATH=${PATH}:/usr/local/mysql/bin/` 
+2. Next run `mysql -u root -p` and input your password
+- If you forget your password, follow the steps here to reset it: https://dev.mysql.com/doc/refman/8.1/en/resetting-permissions.html 
 
 ## AWS S3 Issues
 1. Update Credentials

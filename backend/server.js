@@ -18,7 +18,7 @@ const app = express();
 const jsonParser = bodyParser.json()
 
 app.use(cors());
-
+// app.use(express.urlencoded());
 app.get('/', (req, res) => res.send('Server running'));
 
 const people = [
@@ -43,6 +43,7 @@ app.post('/shirts', jsonParser, shirtRouter.router);
 // app.post('/shirts', jsonParser, shirtRouter.router);
 app.get('/bottoms', bottomRouter.router);
 app.get('/ratings', ratingRouter.router);
+app.post('/ratings', ratingRouter.router);
 
 // DELETE LATER
 
