@@ -40,6 +40,7 @@
 ## MySQL Issues
 1. Client does not support authentication protocol requested by server; consider upgrading MySQL client
 - Source: https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server 
+- `async.parallel` is useful when you have multiple queries in a single get/post request where a query is dependent on another
 
 ### How to connect to Root
 1. How to fix command not found mysql
@@ -55,4 +56,9 @@
 - Copy and paste these values into `~/.aws/credentials`.
 - Change profile to [default].
 - Token expires every hour.
+
+## Collaborative Filtering Python Script
+1. How to call Python function from Node.js
+- https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js
 ### Sources:
+- https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js
