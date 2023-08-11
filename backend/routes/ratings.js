@@ -15,6 +15,9 @@ var shirtIDList = [];
 var bottomIDList = [];
 var ratingsList = [];
 
+
+
+
 const setShirtIDList = (value) => {
     shirtIDList = value;
     console.log("SHIRTID LIST", shirtIDList);
@@ -28,6 +31,30 @@ const setRatingsList = (value) => {
     console.log("RATING LIST", ratingsList);
 }
 
+const shirtsToArray = (list) => {
+    var shirtArray = [];
+    for (let i = 0; i < list.length; i++) {
+        shirtArray.push(list[i].shirt_id);
+    };
+    return shirtArray;
+}
+const bottomsToArray = (list) => {
+    var bottomArray = [];
+    for (let i = 0; i < list.length; i++) {
+        bottomArray.push(list[i].bottom_id);
+    }   
+    return bottomArray;
+}
+
+const ratingsToArray = (list) => {
+    var ratingArray = [];
+    for (let i = 0; i < list.length; i++) {
+        ratingArray.push(list[i].shirt_id);
+        ratingArray.push(list[i].bottom_id);
+        ratingArray.push(list[i].rating);
+    }   
+    return ratingArray;
+}
 // Get ratings and return client a recommended shirt and bottom
 router.get('/ratings', function(req, res, next) {
 
@@ -55,6 +82,7 @@ router.get('/ratings', function(req, res, next) {
                 } 
                 console.log("BOTTOMID RESULTS", results)
                 setBottomIDList(results);
+                
                 parallel_done();
             });               
         },
@@ -66,6 +94,7 @@ router.get('/ratings', function(req, res, next) {
                 } 
                 console.log("RATINGS RESULTS", results)
                 setRatingsList(results);
+                
                 parallel_done();
             });               
         }
@@ -77,24 +106,26 @@ router.get('/ratings', function(req, res, next) {
             throw err;
         }
         console.log("LISTS", shirtIDList, bottomIDList, ratingsList);
-    })
-    // Spawn python process and send db data to it
-    const pythonProcess = spawn('python',["./services/collab_filtering.py", shirtIDList, bottomIDList, [[9, 6, 5], [7, 5, 9]]]);
-    pythonProcess.stdout.on('data', (data) => {
-    console.log("GOT DATA FROM PYTHON!", data);
-    // res.status(200).json(data);
-    res.send(data.toString());
-    })
-    pythonProcess.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
-    });
-    pythonProcess.on('error', (error) => console.log(`error: ${error.message}`));
+            // Spawn python process and send db data to it
+        const pythonProcess = spawn('python',["./services/collab_filtering.py",  shirtsToArray(shirtIDList), bottomsToArray(bottomIDList), ratingsToArray(ratingsList)]);
+        pythonProcess.stdout.on('data', (data) => {
+        console.log("GOT DATA FROM PYTHON!", data);
+        // res.status(200).json(data);
+        res.send(data.toString());
+        })
+        pythonProcess.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        pythonProcess.on('error', (error) => console.log(`error: ${error.message}`));
 
-    pythonProcess.on('exit', (code, signal) => {
-        if (code) console.log(`Process exit with code: ${code}`);
-        if (signal) console.log(`Process killed with signal: ${signal}`);
-        console.log(`Done`);
+        pythonProcess.on('exit', (code, signal) => {
+            if (code) console.log(`Process exit with code: ${code}`);
+            if (signal) console.log(`Process killed with signal: ${signal}`);
+            console.log(`Done`);
+        })
     })
+
+    // pythonProcess.kill();
 
     // try {
     //     // Get list of shirt and bottom ID's
