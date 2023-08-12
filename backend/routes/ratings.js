@@ -9,14 +9,9 @@ import {spawn} from 'child_process';
 export const router = express.Router();
 const upload = multer()
 
-
-
 var shirtIDList = [];
 var bottomIDList = [];
 var ratingsList = [];
-
-
-
 
 const setShirtIDList = (value) => {
     shirtIDList = value;
@@ -55,9 +50,9 @@ const ratingsToArray = (list) => {
     }   
     return ratingArray;
 }
+
 // Get ratings and return client a recommended shirt and bottom
 router.get('/ratings', function(req, res, next) {
-
     // Get list of shirt_id's, bottom_id's, and ratings
     const shirtIDQuery = 'SELECT shirt_id FROM shirts';
     const bottomIDQuery = 'SELECT bottom_id FROM bottoms';
@@ -124,31 +119,9 @@ router.get('/ratings', function(req, res, next) {
             console.log(`Done`);
         })
     })
-
-    // pythonProcess.kill();
-
-    // try {
-    //     // Get list of shirt and bottom ID's
-    //     // Get list of ratings
-    //     // Send 3 lists to collaborative filtering service (written in python)
-    //     // Should receive shirt_id and bottom_id of outfit the service recommends to client
-    //     // Send shirt_id and bottom_id to client
-    //     console.log("ENTERED RATINGS ROUTES");
-    //     let sqlQuery = 'SELECT * from ratings';
-    //     dbConnection.query(sqlQuery, (error, results) => {
-    //         if (error) {
-    //             console.log("THERE WAS AN ERROR TRYING TO QUERY!");
-    //             throw error;
-    //         } 
-    //         console.log("WE WERE ABLE TO QUERY!");
-    //         console.log(results);   
-    //         res.status(200).json(results);
-    //     });
-    // } catch (err) {
-    //     console.error("Error while getting ratings", err.message);
-    //     next(err);
-    // }
 });
+
+
 var shirtID;
 var bottomID;
 
