@@ -83,7 +83,7 @@ def reccommend_outfit(df):
 if __name__ == "__main__":
     # Takes first name and last name via command 
     # line arguments and then display them
-    print("Output from Python")
+    # print("Output from Python")
     shirt_id_list = sys.argv[1]
     bottom_id_list = sys.argv[2]
     rating_list = sys.argv[3]

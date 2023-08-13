@@ -77,7 +77,6 @@ router.get('/ratings', function(req, res, next) {
                 } 
                 console.log("BOTTOMID RESULTS", results)
                 setBottomIDList(results);
-                
                 parallel_done();
             });               
         },
@@ -89,7 +88,6 @@ router.get('/ratings', function(req, res, next) {
                 } 
                 console.log("RATINGS RESULTS", results)
                 setRatingsList(results);
-                
                 parallel_done();
             });               
         }
@@ -104,7 +102,10 @@ router.get('/ratings', function(req, res, next) {
             // Spawn python process and send db data to it
         const pythonProcess = spawn('python',["./services/collab_filtering.py",  shirtsToArray(shirtIDList), bottomsToArray(bottomIDList), ratingsToArray(ratingsList)]);
         pythonProcess.stdout.on('data', (data) => {
-        console.log("GOT DATA FROM PYTHON!", data);
+        
+        var shirt_id = parseInt(data.toString()[0])
+        var bottom_id = parseInt(data.toString()[2])
+        console.log("GOT DATA FROM PYTHON!", shirt_id, bottom_id);
         // res.status(200).json(data);
         res.send(data.toString());
         })
@@ -118,6 +119,9 @@ router.get('/ratings', function(req, res, next) {
             if (signal) console.log(`Process killed with signal: ${signal}`);
             console.log(`Done`);
         })
+
+        // Look up shirt and bottom url by ID's
+        
     })
 });
 

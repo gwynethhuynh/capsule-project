@@ -22,7 +22,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 upload.single('image');
 
-// Get shirts
+// Get list of shirts
 router.get('/shirts', function(req, res, next) {
     try {
         console.log("ENTERED SHIRTS ROUTES");
@@ -45,6 +45,8 @@ router.get('/shirts', function(req, res, next) {
         next(err);
     }
 });
+
+// Get shirt by shirt_id
 
 router.post('/shirts', upload.single('image'), async function(req, res, next) {
     try {
