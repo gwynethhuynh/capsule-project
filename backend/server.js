@@ -21,27 +21,12 @@ app.use(cors());
 // app.use(express.urlencoded());
 app.get('/', (req, res) => res.send('Server running'));
 
-const people = [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' },
-    { id: 3, name: 'Michael Brown' },
-    { id: 4, name: 'Emily Johnson' },
-    { id: 5, name: 'David Jones' },
-    { id: 6, name: 'Sarah Davis' },
-    { id: 7, name: 'Kevin Wilson' },
-    { id: 8, name: 'Laura Taylor' },
-    { id: 9, name: 'Richard Williams' },
-    { id: 10, name: 'Emma White' },
-  ];
-  
-  app.get('/api/people', (req, res) => {
-    res.json(people);
-  });
 console.log(shirtRouter);
 app.get('/shirts', shirtRouter.router);
+app.get('/shirts/:id', shirtRouter.router);
 app.post('/shirts', jsonParser, shirtRouter.router);
-// app.post('/shirts', jsonParser, shirtRouter.router);
 app.get('/bottoms', bottomRouter.router);
+app.get('/bottoms/:id', bottomRouter.router);
 app.get('/ratings', ratingRouter.router);
 app.post('/ratings', ratingRouter.router);
 

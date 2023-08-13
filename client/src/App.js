@@ -8,18 +8,6 @@ import User from './components/User/User';
 function App() {
   const [people, setPeople] = useState([]);
 
-  useEffect(() => {
-    const fetchPeople = async () => {
-      try {
-        const response = await fetch('/api/people');
-        const data = await response.json();
-        setPeople(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchPeople();
-  }, []);
 
   return (
     // <div className="App">

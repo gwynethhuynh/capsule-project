@@ -27,3 +27,17 @@ router.get('/bottoms', function(req, res, next) {
     }
 });
 
+// Get shirt by shirt_id
+router.get('/bottoms/:id', function(req, res, next) {
+    // 
+    let sqlQuery = `SELECT bottom_img_url FROM bottoms WHERE bottom_id = '${req.params.id}'`;
+    dbConnection.query(sqlQuery, (error, results) => {
+        if (error) {
+            console.log("THERE WAS AN ERROR TRYING TO QUERY!");
+            throw error;
+        } 
+        console.log("WE WERE ABLE TO QUERY!");
+        console.log(results[0].bottom_img_url); 
+        res.status(200).json(results[0].bottom_img_url);
+    });
+});

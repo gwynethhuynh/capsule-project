@@ -31,17 +31,23 @@
 
 ## Nodejs 
 - Source: https://blog.logrocket.com/build-rest-api-node-express-mysql/ 
+
 ## Nodejs Issues
 1. dotenv was not loading environment variables
 - Solution: get current directory and append that to relative path to config.env file
 - https://stackoverflow.com/questions/46745014/alternative-for-dirname-in-node-js-when-using-es6-modules
 - https://stackoverflow.com/questions/42335016/dotenv-file-is-not-loading-environment-variables 
 
+## Axios
+1. Sequential get requests
+- https://stackoverflow.com/questions/47343225/making-2-sequential-requests-with-axios-second-request-depends-on-the-response
+2. Preventing callback hell
+
 ## MySQL Issues
 1. Client does not support authentication protocol requested by server; consider upgrading MySQL client
 - Source: https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server 
 - `async.parallel` is useful when you have multiple queries in a single get/post request where a query is dependent on another
-
+- Surce: https://stackoverflow.com/questions/29631131/perform-two-or-more-queries-in-one-request-using-node-mysql-and-expressjs
 ### How to connect to Root
 1. How to fix command not found mysql
 - Source: https://stackoverflow.com/questions/35858052/how-to-fix-command-not-found-mysql-in-zsh 

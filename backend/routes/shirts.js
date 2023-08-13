@@ -47,6 +47,19 @@ router.get('/shirts', function(req, res, next) {
 });
 
 // Get shirt by shirt_id
+router.get('/shirts/:id', function(req, res, next) {
+    // 
+    let sqlQuery = `SELECT shirt_img_url FROM shirts WHERE shirt_id = '${req.params.id}'`;
+    dbConnection.query(sqlQuery, (error, results) => {
+        if (error) {
+            console.log("THERE WAS AN ERROR TRYING TO QUERY!");
+            throw error;
+        } 
+        console.log("WE WERE ABLE TO QUERY!");
+        console.log(results[0].shirt_img_url); 
+        res.status(200).json(results[0].shirt_img_url);
+    });
+});
 
 router.post('/shirts', upload.single('image'), async function(req, res, next) {
     try {

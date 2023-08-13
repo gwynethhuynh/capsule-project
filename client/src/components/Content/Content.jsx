@@ -25,7 +25,6 @@ function Content() {
   const [bottomURLS, setBottomURLS] = React.useState([]);
   const [bottomIndex, setBottomIndex] = React.useState(0);
   const [rating, setRating] = React.useState(1);
-  const baseURL = "http://127.0.0.1:8000/shirts";
 
   React.useEffect(() => {
     axios.get("http://localhost:8000/shirts")
@@ -45,6 +44,7 @@ function Content() {
     console.log("HANDLING CLICK SHIRT!");
     // Choose next shirt 
     setShirtIndex((shirtIndex + 1) % shirtURLS.length)
+    
   };
   const handleClickShirtBackward = (e) => {
     e.preventDefault();
@@ -65,6 +65,20 @@ function Content() {
     // Choose next bottom 
     setBottomIndex(((bottomIndex - 1) + bottomURLS.length) % bottomURLS.length)
   };
+
+  const handleClickRecommend = async (e) => {
+    e.preventDefault();
+    const firstRequest = await axios.get('/ratings');
+    var shirtID = firstRequest.data[0];
+    var bottomID = firstRequest.data[2];
+    const shirtRequest = await axios.get(`http://localhost:8000/shirts/${shirtID}`);
+    const bottomRequest = await axios.get(`http://localhost:8000/bottoms/${bottomID}`);
+    const foundShirtURL = (url) => url === shirtRequest.data;
+    const foundBottomURL = (url) => url === bottomRequest.data;
+    setShirtIndex(shirtURLS.findIndex(foundShirtURL));
+    setBottomIndex(bottomURLS.findIndex(foundBottomURL));
+  }
+
 
   const handleClickRate = async (e) => {
     e.preventDefault();
@@ -118,7 +132,7 @@ function Content() {
         </div>
         <div className='carouselBtnWrapper'>
           <button onClick={handleClickShirtBackward} className='carouselBtn'>◂◂</button>
-          <button className='carouselBtn'>▸</button>
+          <button onClick={handleClickRecommend} className='carouselBtn'>▸</button>
           <button  onClick={handleClickShirtForward} className='carouselBtn'>▸▸</button>
         </div>
         <div id='bottomCarousel'>
@@ -128,7 +142,7 @@ function Content() {
         </div>
         <div className='carouselBtnWrapper'>
           <button onClick={handleClickBottomBackward} className='carouselBtn'>◂◂</button>
-          <button className='carouselBtn'>▸</button>
+          <button onClick={handleClickRecommend} className='carouselBtn'>▸</button>
           <button onClick={handleClickBottomForward} className='carouselBtn'>▸▸</button>
         </div>
       </div>
