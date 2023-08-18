@@ -72,26 +72,27 @@ def reccommend_outfit(df):
     # Choose random bottom using weights
     # Source: https://www.geeksforgeeks.org/how-to-get-weighted-random-choice-in-python/
     # print(df.iloc[shirt_index].index)
-    randomList = random.choices(df.iloc[shirt_index].index, weights=df.iloc[shirt_index], k=1)
+    # If all weights are zero, then we randomly choose a bottom
+    # print(df.iloc[shirt_index].index)
+    if (df.iloc[shirt_index].sum() == 0):
+        # Choose a random bottom
+        bottoms_name = random.choice(df.iloc[shirt_index].index)
+    else:
+        bottoms_name= random.choices(df.iloc[shirt_index].index, weights=df.iloc[shirt_index], k=1)[0]
+
+    # randomList = random.choices(df.iloc[shirt_index].index, weights=df.iloc[shirt_index], k=1)
 
 
-    # Get shirt name from shirt_index
+    # # Get shirt name from shirt_index
     shirt_name = df.index[shirt_index]
-    bottoms_name = randomList[0]
     print(shirt_name, bottoms_name)
 
 if __name__ == "__main__":
     # Takes first name and last name via command 
     # line arguments and then display them
-    # print("Output from Python")
     shirt_id_list = sys.argv[1]
     bottom_id_list = sys.argv[2]
     rating_list = sys.argv[3]
-    # print("SHIRTS", sys.argv[1])
-    # print("BOTTOMS", sys.argv[2])
-    # print("RATINGS", sys.argv[3])
-
     df = convert_to_df(shirt_id_list, bottom_id_list, rating_list)
     reccommend_outfit(df)
-    # print(df)
     sys.stdout.flush()
