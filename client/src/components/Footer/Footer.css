@@ -17,14 +17,15 @@
     display: flex;
     width: 100%;
     bottom: 0px;
-    padding: 0.5vmin;
+    /* padding: 0.5vmin; */
     /* position: fixed; */
 }
 .footerList {
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
+    padding-right: 10px;
 }
 .footerListItem {
     color: aliceblue;

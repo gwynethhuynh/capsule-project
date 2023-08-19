@@ -10,6 +10,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Button } from '@mui/material';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 
 
 
@@ -63,6 +67,24 @@ function Uploader() {
   console.log("during render: ", fileName);
   return (
     <main>
+
+      {/* <Box sx={{ minWidth: 120, backgroundColor: 'white'}}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Category</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={value}
+            label="Category"
+            onChange={handleChange}
+          >
+            <MenuItem value={'shirt'}>Shirt</MenuItem>
+            <MenuItem value={'bottom'}>Bottom</MenuItem>
+          </Select>
+          <Button type="submit" onClick={handleSubmit}>Submit</Button>
+        </FormControl>
+      </Box> */}
+
       <form
       onClick={() => document.querySelector(".input-field").click()}
       action="/posts" method="POST" enctype="multipart/form-data">
@@ -73,7 +95,7 @@ function Uploader() {
         <img src={imageURL} width={150} height={150} alt={fileName} />
         : 
         <>
-        <MdCloudUpload color='#020202' size={60} />
+        <MdCloudUpload color='#2196f3' size={60} />
         <p>Browse Files to upload</p>
         </>
       }
@@ -89,26 +111,30 @@ function Uploader() {
             setFileName("No selected File")
             setImageURL(null)
           }}
+          color='#020202'
            />
         </span>
       </section>
 
       <Box sx={{ minWidth: 120, backgroundColor: 'white'}}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+          <FormLabel id="demo-simple-select-label">Clothing Category</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
             value={value}
             label="Category"
             onChange={handleChange}
           >
-            <MenuItem value={'shirt'}>Shirt</MenuItem>
-            <MenuItem value={'bottom'}>Bottom</MenuItem>
-          </Select>
+            <FormControlLabel control={<Radio />} value={'shirt'} label="Shirt" />
+            <FormControlLabel control={<Radio />}  value={'bottom'} label="Bottom" />
+          </RadioGroup>
           <Button type="submit" onClick={handleSubmit}>Submit</Button>
         </FormControl>
       </Box>
+
+
 
       
 

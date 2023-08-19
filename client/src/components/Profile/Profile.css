@@ -7,3 +7,13 @@
     url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.ttf")format("truetype"),
     url("https://db.onlinewebfonts.com/t/27cdae08bbdbc3a00d979d58d7f7c0f7.svg#Ad Lib W07 Rg")format("svg");
 } 
+
+.Profile {
+    /* text-align: center; */
+    min-height: 100vh;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  

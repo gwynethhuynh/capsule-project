@@ -2,7 +2,7 @@ import React from 'react'
 import axios from "axios";
 import styles from "./Content.css"
 import { styled } from '@mui/material/styles';
-import { Button, Box, Typography, Rating } from '@mui/material';
+import { Button, Box, Typography, Rating, Modal } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // import {FavoriteIcon, FavoriteBorderIcon} from '@mui/icons-material';
@@ -18,6 +18,18 @@ const StyledRating = styled(Rating)({
   },
 });
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 function Content() {
 
   const [shirtURLS, setShirtURLS] = React.useState([]);
@@ -25,6 +37,10 @@ function Content() {
   const [bottomURLS, setBottomURLS] = React.useState([]);
   const [bottomIndex, setBottomIndex] = React.useState(0);
   const [rating, setRating] = React.useState(1);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
 
   React.useEffect(() => {
     axios.get("http://localhost:8000/shirts")
@@ -100,30 +116,51 @@ function Content() {
 
   return (
     <div className='contentWrapper'>
-      <Box
-        sx={{
-          '& > legend': { mt: 2 },
-          backgroundColor: 'white',
-        }}
+      <button 
+      id = 'rateBtn'
+      className='carouselBtn'
+      onClick={handleOpen}>Rate Me</button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <Typography component="legend">Rate this combo {rating}</Typography>
-        <StyledRating
-          name="customized-color"
-          value={rating}
-          getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-          precision={1}
-          max={10}
-          icon={<FavoriteIcon fontSize="inherit" />}
-          emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-          onChange={(event, newValue)=>{setRating(newValue)}}
-        />
-        <Button sx={{
-          '& > legend': { mt: 2 },
-          backgroundColor: 'gray',
-          color: 'black'
-        }} onClick={handleClickRate} >Rate</Button>
+        <Box
+          sx={{
+            '& > legend': { mt: 2 },
+            backgroundColor: 'white',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+          className="ratingBox"
+        >
+          <Typography component="legend">Rate this combo {rating}</Typography>
+          <StyledRating
+            name="customized-color"
+            value={rating}
+            getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+            precision={1}
+            max={10}
+            icon={<FavoriteIcon fontSize="inherit" />}
+            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+            onChange={(event, newValue)=>{setRating(newValue)}}
+          />
+          <Button sx={{
+            '& > legend': { mt: 2 },
+            backgroundColor: 'gray',
+            color: 'black'
+          }} onClick={handleClickRate} >Rate</Button>
 
-      </Box >
+        </Box >
+      </Modal>
+
       <div id="carousel">
         <div id='topCarousel'>
           <div className='carouselWrapper'>
@@ -146,6 +183,10 @@ function Content() {
           <button onClick={handleClickBottomForward} className='carouselBtn'>▸▸</button>
         </div>
       </div>
+      <button 
+      id = 'rateBtn'
+      className='carouselBtn'
+      onClick={handleClickRecommend}>Pick For Me</button>
 
     </div>
     

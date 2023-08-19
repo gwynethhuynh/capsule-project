@@ -66,5 +66,7 @@
 ## Collaborative Filtering Python Script
 1. How to call Python function from Node.js
 - https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js
+2. Cold Start
+- https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)#:~:text=The%20item%20cold%2Dstart%20problem,item's%20interactions%20to%20make%20recommendations. 
 ### Sources:
 - https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js
