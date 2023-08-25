@@ -141,7 +141,7 @@ function Content() {
           }}
           className="ratingBox"
         >
-          <Typography component="legend">Rate this combo {rating}</Typography>
+          <Typography component="legend">Rate this combo</Typography>
           <StyledRating
             name="customized-color"
             value={rating}
