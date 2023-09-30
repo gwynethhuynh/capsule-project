@@ -5,10 +5,7 @@ import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 import axios from 'axios';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Button } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -24,9 +21,8 @@ function Uploader() {
   const [imageURL, setImageURL] = useState(null);
   const [file, setFile] = useState(null);
   const [value, setValue] = useState('shirt');
-  const [itemName, setItemName] = useState("");
-  const [itemType, setItemType] = useState("");
   const [fileName, setFileName] = useState("No selected file");
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     console.log(fileName)
@@ -34,7 +30,11 @@ function Uploader() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // Try axios post 
+    if (!file) {
+      console.log("No file selected.");
+      setError(true);
+      return; // Prevent further execution if no file is selected
+    }
     console.log("handling submit!");
     console.log("Submitted File: ", fileName);
     try {
@@ -56,50 +56,54 @@ function Uploader() {
     setValue(event.target.value);
   };
 
+  // Called when we upload an image file
   const fileSelected = event => {
-    const file = event.target.files[0];
-    console.log("FILE", file)
-    console.log("FILENAME", file.name);
-    setFileName(file.name);
-    setFile(file);
-		setImageURL(URL.createObjectURL(file));
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      console.log("FILE", selectedFile);
+      setFileName(selectedFile.name);
+      setFile(selectedFile);
+      setImageURL(URL.createObjectURL(selectedFile));
+      setError(false); // Clear the error state when a file is selected
+    } else {
+      // Handle the case where the user cleared the file input
+      setFileName("No selected file");
+      setFile(null);
+      setImageURL(null); 
+    }
 	}
+
   console.log("during render: ", fileName);
   return (
     <main>
-
-      {/* <Box sx={{ minWidth: 120, backgroundColor: 'white'}}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={value}
-            label="Category"
-            onChange={handleChange}
-          >
-            <MenuItem value={'shirt'}>Shirt</MenuItem>
-            <MenuItem value={'bottom'}>Bottom</MenuItem>
-          </Select>
-          <Button type="submit" onClick={handleSubmit}>Submit</Button>
-        </FormControl>
-      </Box> */}
-
       <form
-      onClick={() => document.querySelector(".input-field").click()}
+      onClick={() => document.querySelector(".file-input").click()}
       action="/posts" method="POST" enctype="multipart/form-data">
-        <input type="file" accept='image/*' className='input-field' hidden 
-        onChange={fileSelected}
-         />
-        {imageURL ?
-        <img src={imageURL} width={150} height={150} alt={fileName} />
-        : 
-        <>
-        <MdCloudUpload color='#2196f3' size={60} />
-        <p>Browse Files to upload</p>
-        </>
-      }
-
+        <input 
+          type="file" 
+          accept='image/*' 
+          className='file-input' 
+          hidden 
+          onChange={fileSelected}/>
+        {imageURL ? (
+          <img 
+            src={imageURL} 
+            // width={150} 
+            // height={150} 
+            alt={fileName} 
+          />
+        ) : (
+          <>
+            <MdCloudUpload color='#2196f3' size={60} />
+            <p>Browse Files to upload</p>
+          </>
+        )}
+        {error && (
+          <div className="error-box" style={{ backgroundColor: 'red', color: 'white', padding: '8px', borderRadius: '4px' }}>
+            Please select an image.
+          </div>
+        )}
       </form>
 
       <section className='uploaded-row'>
@@ -133,12 +137,6 @@ function Uploader() {
           <Button type="submit" onClick={handleSubmit}>Submit</Button>
         </FormControl>
       </Box>
-
-
-
-      
-
-
     </main>
   )
 }

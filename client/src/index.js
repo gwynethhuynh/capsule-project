@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Profile from "../src/components/Profile/Profile";
+import AddItem from "../src/components/AddItem/AddItem";
 
 
 // Source: https://www.theodinproject.com/lessons/node-path-react-new-react-router 
@@ -15,15 +15,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/add-item",
-    element: <Profile />,
+    element: <AddItem />,
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
