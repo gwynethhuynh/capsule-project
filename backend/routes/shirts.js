@@ -61,58 +61,80 @@ router.get('/shirts/:id', function(req, res, next) {
     });
 });
 
-router.post('/shirts', upload.single('image'), async function(req, res, next) {
+
+// Middleware for handling file upload to S3
+const uploadToS3 = (req, res, next) => {
     try {
-        // Receive request
-        console.log("ENTERED SHIRTS POST");
-        console.log("req.body", req.body.category);
-        console.log("req.file", req.file);
+      const fileKey = randomImageName();
+      const params = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: fileKey,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype,
+      };
+      const putCommand = new PutObjectCommand(params)
+      // Use the promise returned by send() to handle success or error
+      s3Client.send(putCommand)
+        .then(() => {
+            // Attach the fileKey and URL to the request object for later use
+            req.uploadedFileKey = fileKey;
+            req.uploadedFileUrl = `https://${process.env.BUCKET_NAME}.s3.${process.env.S3_REGION}.amazonaws.com/${fileKey}`;
+            next();
+        })
+        .catch((err) => {
+        console.error("Error while uploading to S3", err.message);
+        next(err); // Pass the error to the error-handling middleware
+    });
+  
+      // Attach the fileKey and URL to the request object for later use
+      req.uploadedFileKey = fileKey;
+      req.uploadedFileUrl = `https://${process.env.BUCKET_NAME}.s3.${process.env.S3_REGION}.amazonaws.com/${fileKey}`;
+  
+      next();
+    } catch (err) {
+      console.error("Error while uploading to S3", err.message);
+      next(err);
+    }
+};
+  
+// Middleware for handling database insertion
+const insertIntoDatabase = (req, res, next) => {
+    try {
+        console.log("We're in the insert database!");
+        let query;
+        let values;
 
-        // Create random file name for image
-        const fileKey = randomImageName();
-        // Upload image file to s3
-        const params = {
-            Bucket: process.env.BUCKET_NAME,
-            Key: fileKey,
-            Body: req.file.buffer,
-            ContentType: req.file.mimetype,
-          }
-        const putCommand = new PutObjectCommand(params)
-        s3Client.send(putCommand)
-        res.status(200).json(req.body);
-
-        // Get s3 url for image
-        const url = ['https://', process.env.BUCKET_NAME, '.s3.', process.env.S3_REGION, '.amazonaws.com/', fileKey].join('')
-        console.log(url)
-        var query;
-
-        // Setup Query
-        if (req.body.category == 'shirt') {
-            query = ['INSERT INTO', 'shirts', '(shirt_file_name, shirt_img_url)', 'VALUES', '?'].join(' ')
-        } else if (req.body.category == 'bottom'){
-            query = ['INSERT INTO', 'bottoms', '(bottom_file_name, bottom_img_url)', 'VALUES', '?'].join(' ')
+        if (req.body.category === 'shirt') {
+            query = 'INSERT INTO shirts (shirt_file_name, shirt_img_url) VALUES ?';
+        } else if (req.body.category === 'bottom') {
+            query = 'INSERT INTO bottoms (bottom_file_name, bottom_img_url) VALUES ?';
         } else {
             throw new Error("Category undefined");
         }
-        var values = [[fileKey, url]]
-        console.log("QUERY", query)
 
-        // Save image info to database (imageURL, fileName, shirtName?)
+        values = [[req.uploadedFileKey, req.uploadedFileUrl]];
+
         dbConnection.query(query, [values], (error, result) => {
-            if (error) {
-                console.log("THERE WAS AN ERROR TRYING TO QUERY!");
-                throw error;
-            } 
-            console.log("WE WERE ABLE TO QUERY!");
-            console.log("Number of records inserted: " + result.affectedRows);
-            console.log(result);   
-        });
+        if (error) {
+            console.error("Error while querying the database", error.message);
+            next(error);
+            return;
+        }
 
-    }catch (err) {
-        console.error("Error while getting shirts", err.message);
+        console.log("Number of records inserted: " + result.affectedRows);
+        console.log(result);
+        res.status(200).json(req.body);
+        });
+    } catch (err) {
+        console.error("Error while inserting into the database", err.message);
         next(err);
     }
-});
+};
+  
+  // Your route handler using the middleware functions
+  router.post('/shirts', upload.single('image'), uploadToS3, insertIntoDatabase);
+  
+  
 
 
 

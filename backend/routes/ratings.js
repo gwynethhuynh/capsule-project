@@ -138,64 +138,57 @@ const setBottomID = (value) => {
     console.log("BOTTOMID", bottomID);
 }
 
-router.post('/ratings',upload.none(), function(req, res, next) {
-    console.log("ENTERED RATINGS POST");
-    console.log("req.body", req.body);
+// Middleware for retrieving shirt ID from the database
+const getShirtID = (req, res, next) => {
+    const shirtIDQuery = ["SELECT shirt_id FROM shirts WHERE shirt_img_url='", req.body.shirtURL, "'"].join('');
+    dbConnection.query(shirtIDQuery, (error, results) => {
+      if (error) {
+        console.error("Error querying for shirt ID", error.message);
+        next(error);
+      } else {
+        req.shirtID = results[0].shirt_id;
+        next();
+      }
+    });
+  };
 
+// Middleware for retrieving bottom ID from the database
+const getBottomID = (req, res, next) => {
+    const bottomIDQuery = ["SELECT bottom_id FROM bottoms WHERE bottom_img_url='", req.body.bottomURL, "'"].join('');
+    dbConnection.query(bottomIDQuery, (error, results) => {
+      if (error) {
+        console.error("Error querying for bottom ID", error.message);
+        next(error);
+      } else {
+        req.bottomID = results[0].bottom_id;
+        next();
+      }
+    });
+  };
+
+// Middleware for inserting rating into the database
+const insertRating = (req, res, next) => {
     try {
-        const shirtIDQuery = ["SELECT shirt_id FROM shirts WHERE shirt_img_url='", req.body.shirtURL, "'"].join('');
-        const bottomIDQuery = ["SELECT bottom_id FROM bottoms WHERE bottom_img_url='", req.body.bottomURL, "'"].join('');
-        async.parallel([
-            function(parallel_done) {
-                dbConnection.query(shirtIDQuery, (error, results) => {
-                    if (error) {
-                        console.log("THERE WAS AN ERROR TRYING TO QUERY SHIRTS!");
-                        parallel_done(error);
-                    } 
-                    setShirtID(results[0].shirt_id)
-                    parallel_done();
-                 });
-            },
-            function(parallel_done) {
-                dbConnection.query(bottomIDQuery, (error, results) => {
-                    if (error) {
-                        console.log("THERE WAS AN ERROR TRYING TO QUERY SHIRTS!");
-                        parallel_done(error);
-                    } 
-                    setBottomID(results[0].bottom_id);
-                    parallel_done();
-                });               
-            }
-
-        ], function(err) {
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-            console.log("ID's", shirtID, bottomID);
-            const query = 'INSERT INTO ratings (shirt_id, bottom_id, rating) VALUES ?';
-            var values = [[shirtID, bottomID, req.body.rating]]
-            // Save rating into database
-            dbConnection.query(query, [values], (error, result) => {
-                if (error) {
-                    console.log("THERE WAS AN ERROR TRYING TO INPUT RATINGS!");
-                    throw error;
-                } 
-                console.log("WE WERE ABLE TO QUERY!");
-                console.log("Number of records inserted: " + result.affectedRows);
-                console.log(result);  
-                res.status(200).json(result); 
-            });
-        })
-
-
-    }catch (err) {
-        console.error("Error while getting shirts", err.message);
-        next(err);
+      const query = 'INSERT INTO ratings (shirt_id, bottom_id, rating) VALUES (?, ?, ?)';
+      const values = [req.shirtID, req.bottomID, req.body.rating];
+  
+      dbConnection.query(query, values, (error, result) => {
+        if (error) {
+          console.error("Error inserting rating into the database", error.message);
+          next(error);
+        } else {
+          console.log("Rating inserted successfully");
+          res.status(200).json(result);
+        }
+      });
+    } catch (error) {
+      console.error("Error while inserting rating", error.message);
+      next(error);
     }
-});
+  };
 
-
+// Route handler using the middleware functions
+router.post('/ratings', upload.none(), getShirtID, getBottomID, insertRating);
 
 
 
