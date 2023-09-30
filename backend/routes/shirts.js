@@ -48,7 +48,6 @@ router.get('/shirts', function(req, res, next) {
 
 // Get shirt by shirt_id
 router.get('/shirts/:id', function(req, res, next) {
-    // 
     let sqlQuery = `SELECT shirt_img_url FROM shirts WHERE shirt_id = '${req.params.id}'`;
     dbConnection.query(sqlQuery, (error, results) => {
         if (error) {
@@ -56,6 +55,7 @@ router.get('/shirts/:id', function(req, res, next) {
             throw error;
         } 
         console.log("WE WERE ABLE TO QUERY!");
+        console.log(results);
         console.log(results[0].shirt_img_url); 
         res.status(200).json(results[0].shirt_img_url);
     });
@@ -130,9 +130,9 @@ const insertIntoDatabase = (req, res, next) => {
         next(err);
     }
 };
-  
-  // Your route handler using the middleware functions
-  router.post('/shirts', upload.single('image'), uploadToS3, insertIntoDatabase);
+
+// Your route handler using the middleware functions
+router.post('/shirts', upload.single('image'), uploadToS3, insertIntoDatabase);
   
   
 

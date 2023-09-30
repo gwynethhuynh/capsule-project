@@ -85,8 +85,10 @@ function Content() {
   const handleClickRecommend = async (e) => {
     e.preventDefault();
     const firstRequest = await axios.get('/ratings');
-    var shirtID = firstRequest.data[0];
-    var bottomID = firstRequest.data[2];
+    // Split the string by space
+    const parts = firstRequest.data.split(" ");
+    var shirtID = parts[0];
+    var bottomID = parts[1];
     const shirtRequest = await axios.get(`http://localhost:8000/shirts/${shirtID}`);
     const bottomRequest = await axios.get(`http://localhost:8000/bottoms/${bottomID}`);
     const foundShirtURL = (url) => url === shirtRequest.data;

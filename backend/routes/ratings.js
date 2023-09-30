@@ -31,6 +31,7 @@ const shirtsToArray = (list) => {
     for (let i = 0; i < list.length; i++) {
         shirtArray.push(list[i].shirt_id);
     };
+    console.log("SHIRTS TO ARRAY: ", shirtArray)
     return shirtArray;
 }
 const bottomsToArray = (list) => {
@@ -38,6 +39,7 @@ const bottomsToArray = (list) => {
     for (let i = 0; i < list.length; i++) {
         bottomArray.push(list[i].bottom_id);
     }   
+    console.log("Bottoms TO ARRAY: ", bottomArray)
     return bottomArray;
 }
 
@@ -48,6 +50,7 @@ const ratingsToArray = (list) => {
         ratingArray.push(list[i].bottom_id);
         ratingArray.push(list[i].rating);
     }   
+    console.log("Rating TO ARRAY: ", ratingArray)
     return ratingArray;
 }
 
@@ -86,7 +89,7 @@ router.get('/ratings', function(req, res, next) {
                     console.log("THERE WAS AN ERROR TRYING TO QUERY SHIRTS!");
                     parallel_done(error);
                 } 
-                console.log("RATINGS RESULTS", results)
+                console.log("RATINGS RESULTS", results);
                 setRatingsList(results);
                 parallel_done();
             });               
@@ -99,15 +102,16 @@ router.get('/ratings', function(req, res, next) {
             throw err;
         }
         console.log("LISTS", shirtIDList, bottomIDList, ratingsList);
-            // Spawn python process and send db data to it
+        // Spawn python process and send db data to it
         const pythonProcess = spawn('python',["./services/collab_filtering.py",  shirtsToArray(shirtIDList), bottomsToArray(bottomIDList), ratingsToArray(ratingsList)]);
         pythonProcess.stdout.on('data', (data) => {
-        
-        var shirt_id = parseInt(data.toString()[0])
-        var bottom_id = parseInt(data.toString()[2])
-        console.log("GOT DATA FROM PYTHON!", shirt_id, bottom_id);
-        // res.status(200).json(data);
-        res.send(data.toString());
+            console.log("DATAAAAAA", data.toString());
+            const parts = data.toString().split(" ");
+            var shirt_id = parseInt(parts[0], 10)
+            var bottom_id = parseInt(parts[1], 10)
+            console.log("GOT DATA FROM PYTHON!", shirt_id, bottom_id);
+            // res.status(200).json(data);
+            res.send(data.toString());
         })
         pythonProcess.stderr.on('data', (data) => {
             console.log(`stderr: ${data}`);

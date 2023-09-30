@@ -37,6 +37,7 @@ router.get('/bottoms/:id', function(req, res, next) {
             throw error;
         } 
         console.log("WE WERE ABLE TO QUERY!");
+        console.log(results[0])
         console.log(results[0].bottom_img_url); 
         res.status(200).json(results[0].bottom_img_url);
     });

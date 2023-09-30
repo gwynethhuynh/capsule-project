@@ -5,25 +5,16 @@ from sklearn.neighbors import NearestNeighbors
 import random
 
 def convert_to_df(rows, cols, ratings):
-    newRows = []
-    newCols = []
-    newRatings = []
-    for i in range(len(rows)):
-        if (i % 2 == 0):
-            newRows.append(rows[i])
-
-    for i in range(len(cols)):
-        if (i % 2 == 0):
-            newCols.append(cols[i])
-
-    for i in range(len(ratings)):
-        if (i % 2 == 0):
-            newRatings.append(ratings[i])   
+    # print(rows)
+    newRows = [int(x) for x in rows.split(",")]
+    newCols = [int(x) for x in cols.split(",")]  
+    newRatings = [int(x) for x in ratings.split(",")]
     df = pd.DataFrame(0, columns=newCols, index=newRows)
     index = 0
     while index < len(newRatings):
         df.loc[newRatings[index], newRatings[index + 1]] = newRatings[index + 2]
         index += 3
+    # print(df)
     return df.astype(float)
 
 def reccommend_outfit(df):
@@ -41,8 +32,9 @@ def reccommend_outfit(df):
     shirt_index = random.randint(0,len(df) - 1)
     # print("neighbors", neighbors)
     # Get similarity values of 2 nearest neighbors
-    neighbor_one = neighbors.iloc[1][shirt_index]
-    neighbor_two = neighbors.iloc[2][shirt_index]
+    neighbor_one = neighbors.iloc[1].iloc[shirt_index]
+    
+    neighbor_two = neighbors.iloc[2].iloc[shirt_index]
     neighbor_one_index = pearsoncorr.index.tolist().index(neighbor_one)
     neighbor_two_index = pearsoncorr.index.tolist().index(neighbor_two)
 
@@ -51,11 +43,11 @@ def reccommend_outfit(df):
     # print(shirt_index, len(df.iloc[shirt_index]))
     # print(df)
     for bottom_index in range(len(df.iloc[shirt_index])):
-        if df.iloc[shirt_index][bottom_index] == 0:
-            sim_neighbor_one = pearsoncorr.iloc[shirt_index][neighbor_one_index]
-            sim_neighbor_two = pearsoncorr.iloc[shirt_index][neighbor_two_index]
-            rating_neighbor_one = df.iloc[neighbor_one_index][bottom_index]
-            rating_neighbor_two = df.iloc[neighbor_two_index][bottom_index]
+        if df.iloc[shirt_index].iloc[bottom_index] == 0:
+            sim_neighbor_one = pearsoncorr.iloc[shirt_index].iloc[neighbor_one_index]
+            sim_neighbor_two = pearsoncorr.iloc[shirt_index].iloc[neighbor_two_index]
+            rating_neighbor_one = df.iloc[neighbor_one_index].iloc[bottom_index]
+            rating_neighbor_two = df.iloc[neighbor_two_index].iloc[bottom_index]
             # print("sim_neighbor_one", sim_neighbor_one.isnumeric())
             # print("rating_neighbor_one", rating_neighbor_one.isnumeric())
             if rating_neighbor_one == 0 and rating_neighbor_two == 0:
@@ -67,7 +59,7 @@ def reccommend_outfit(df):
             # Take 2 nearest neighbors and calculate its predicted value using similarity weights
             # (sim_x * rating_x + sim_y * rating_y) / (sim_x + sim_y)
             pred_rating = (sim_neighbor_one * rating_neighbor_one + sim_neighbor_two * rating_neighbor_two) / (sim_neighbor_one + sim_neighbor_two)
-            df.iloc[shirt_index][bottom_index] = pred_rating
+            df.iloc[shirt_index].iloc[bottom_index] = pred_rating
 
     # Choose random bottom using weights
     # Source: https://www.geeksforgeeks.org/how-to-get-weighted-random-choice-in-python/
@@ -93,6 +85,11 @@ if __name__ == "__main__":
     shirt_id_list = sys.argv[1]
     bottom_id_list = sys.argv[2]
     rating_list = sys.argv[3]
+    # shirt_id_list =  "6, 7, 8, 9, 18"
+    # bottom_id_list = "3, 4, 5, 6"
+    # rating_list = "6, 5, 5, 6, 6, 1, 7, 4, 5, 6, 6, 1, 8, 4, 3, 9, 4, 7, 7, 3, 9, 7, 5, 9, 8, 3, 7, 18, 4, 9"
+    # print("shirt_id_list")
     df = convert_to_df(shirt_id_list, bottom_id_list, rating_list)
+    # print(df)
     reccommend_outfit(df)
     sys.stdout.flush()
