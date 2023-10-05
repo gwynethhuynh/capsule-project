@@ -23,22 +23,17 @@ const upload = multer({ storage: storage });
 upload.single('image');
 
 // Get list of shirts
-router.get('/shirts', function(req, res, next) {
+router.get('/shirt-images', function(req, res, next) {
+    // TODO: Implement pagination
     try {
-        console.log("ENTERED SHIRTS ROUTES");
-        let sqlQuery = 'SELECT * from shirts';
+        let sqlQuery = 'SELECT shirt_img_url FROM shirts';
         dbConnection.query(sqlQuery, (error, results) => {
             if (error) {
-                console.log("THERE WAS AN ERROR TRYING TO QUERY!");
-                throw error;
+                console.error("Error while querying the database:", error);
+                return next(error);
             } 
-            console.log("WE WERE ABLE TO QUERY!");
-            console.log(results[0]); 
-            var img_urls = [];
-            while (results.length > 0) {
-                img_urls.push(results.pop().shirt_img_url);
-            }   
-            res.status(200).json(img_urls);
+            const imgUrls = results.map(result => result.shirt_img_url);
+            res.status(200).json(imgUrls);
         });
     } catch (err) {
         console.error("Error while getting shirts", err.message);

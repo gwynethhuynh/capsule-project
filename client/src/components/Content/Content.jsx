@@ -46,12 +46,12 @@ function Content() {
 
   React.useEffect(() => {
     console.log("API URL: ", apiBaseUrl)
-    axios.get(`${apiBaseUrl}/shirts`)
+    axios.get(`${apiBaseUrl}/shirt-images`)
     .then(res => {
       setShirtURLS(res.data);
       console.log("GET REQUEST SHIRTS", res.data);
     })
-    axios.get(`${apiBaseUrl}/bottoms`)
+    axios.get(`${apiBaseUrl}/bottom-images`)
     .then(res => {
       setBottomURLS(res.data);
       console.log("GET REQUEST BOTTOMS", res.data);
@@ -96,7 +96,7 @@ function Content() {
     const shirtRequest = await axios.get(`${apiBaseUrl}/shirt-image/${shirtID}`);
     const bottomRequest = await axios.get(`${apiBaseUrl}/bottom-image/${bottomID}`);
     const foundShirtURL = (url) => url === shirtRequest.data.shirt_img_url;
-    const foundBottomURL = (url) => url === bottomRequest.data;
+    const foundBottomURL = (url) => url === bottomRequest.data.bottom_img_url;
     setShirtIndex(shirtURLS.findIndex(foundShirtURL));
     setBottomIndex(bottomURLS.findIndex(foundBottomURL));
   }
