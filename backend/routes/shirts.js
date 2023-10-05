@@ -47,17 +47,25 @@ router.get('/shirts', function(req, res, next) {
 });
 
 // Get shirt by shirt_id
-router.get('/shirts/:id', function(req, res, next) {
-    let sqlQuery = `SELECT shirt_img_url FROM shirts WHERE shirt_id = '${req.params.id}'`;
-    dbConnection.query(sqlQuery, (error, results) => {
+router.get('/shirt-image/:id', function(req, res, next) {
+    // Validate that req.params.id is a positive integer
+    const shirtId = parseInt(req.params.id);
+    if (isNaN(shirtId) || shirtId <= 0) {
+        return res.status(400).json({ error: 'Invalid shirt ID' });
+    }
+    let sqlQuery = `SELECT shirt_img_url FROM shirts WHERE shirt_id = ?`;
+    dbConnection.query(sqlQuery, [shirtId], (error, results) => {
         if (error) {
-            console.log("THERE WAS AN ERROR TRYING TO QUERY!");
-            throw error;
+            console.log('Error querying the database:', error);
+            throw res.status(500).json({ error: 'Internal Server Error' });
         } 
-        console.log("WE WERE ABLE TO QUERY!");
-        console.log(results);
-        console.log(results[0].shirt_img_url); 
-        res.status(200).json(results[0].shirt_img_url);
+        if (results.length == 0) {
+            return res.status(404).json({error: 'Shirt not found'});
+        }
+
+        const shirtImageURL = results[0].shirt_img_url;
+        console.log('Successfully queried the database:', shirtImageURL);
+        res.status(200).json({shirt_img_url: shirtImageURL})
     });
 });
 

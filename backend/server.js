@@ -23,10 +23,10 @@ app.get('/', (req, res) => res.send('Server running'));
 
 console.log(shirtRouter);
 app.get('/shirts', shirtRouter.router);
-app.get('/shirts/:id', shirtRouter.router);
+app.get('/shirt-image/:id', shirtRouter.router);
 app.post('/shirts', jsonParser, shirtRouter.router);
 app.get('/bottoms', bottomRouter.router);
-app.get('/bottoms/:id', bottomRouter.router);
+app.get('/bottom-image/:id', bottomRouter.router);
 app.get('/ratings', ratingRouter.router);
 app.post('/ratings', ratingRouter.router);
 

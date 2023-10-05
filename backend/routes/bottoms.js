@@ -28,7 +28,7 @@ router.get('/bottoms', function(req, res, next) {
 });
 
 // Get shirt by shirt_id
-router.get('/bottoms/:id', function(req, res, next) {
+router.get('/bottom-image/:id', function(req, res, next) {
     // 
     let sqlQuery = `SELECT bottom_img_url FROM bottoms WHERE bottom_id = '${req.params.id}'`;
     dbConnection.query(sqlQuery, (error, results) => {

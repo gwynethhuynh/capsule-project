@@ -9,6 +9,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 // Source for loading image: https://stackoverflow.com/questions/34582405/react-wont-load-local-images
 // Source for storing images in backend
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
     color: '#ff6d75',
@@ -43,12 +45,13 @@ function Content() {
 
 
   React.useEffect(() => {
-    axios.get("http://localhost:8000/shirts")
+    console.log("API URL: ", apiBaseUrl)
+    axios.get(`${apiBaseUrl}/shirts`)
     .then(res => {
       setShirtURLS(res.data);
       console.log("GET REQUEST SHIRTS", res.data);
     })
-    axios.get("http://localhost:8000/bottoms")
+    axios.get(`${apiBaseUrl}/bottoms`)
     .then(res => {
       setBottomURLS(res.data);
       console.log("GET REQUEST BOTTOMS", res.data);
@@ -89,9 +92,10 @@ function Content() {
     const parts = firstRequest.data.split(" ");
     var shirtID = parts[0];
     var bottomID = parts[1];
-    const shirtRequest = await axios.get(`http://localhost:8000/shirts/${shirtID}`);
-    const bottomRequest = await axios.get(`http://localhost:8000/bottoms/${bottomID}`);
-    const foundShirtURL = (url) => url === shirtRequest.data;
+    console.log("ShirtID: ", shirtID)
+    const shirtRequest = await axios.get(`${apiBaseUrl}/shirt-image/${shirtID}`);
+    const bottomRequest = await axios.get(`${apiBaseUrl}/bottom-image/${bottomID}`);
+    const foundShirtURL = (url) => url === shirtRequest.data.shirt_img_url;
     const foundBottomURL = (url) => url === bottomRequest.data;
     setShirtIndex(shirtURLS.findIndex(foundShirtURL));
     setBottomIndex(bottomURLS.findIndex(foundBottomURL));
@@ -109,7 +113,7 @@ function Content() {
       formData.append("shirtURL", shirtURLS[shirtIndex]);
       formData.append("bottomURL", bottomURLS[bottomIndex]);
       formData.append("rating", rating);
-      const res = await axios.post( "http://localhost:8000/ratings", formData, { headers: {'Content-Type': 'multipart/form-data'}});
+      const res = await axios.post( `${apiBaseUrl}/ratings`, formData, { headers: {'Content-Type': 'multipart/form-data'}});
       console.log("Response on react side!", res);
     } catch (ex) {
       console.log(ex);
